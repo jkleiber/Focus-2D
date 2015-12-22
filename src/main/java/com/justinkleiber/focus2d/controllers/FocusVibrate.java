@@ -5,11 +5,20 @@ import android.os.Vibrator;
 
 import com.justinkleiber.focus2d.base.Vibrate;
 
+/**
+ * Controls Phone vibration
+ * @author Justin
+ *
+ */
 public class FocusVibrate implements Vibrate{
 
 	Vibrator v;
 	Context context;
 	
+	/**
+	 * Initializes the Vibration Control
+	 * @param c The application Context
+	 */
 	public FocusVibrate(Context c)
 	{
 		this.context = c;

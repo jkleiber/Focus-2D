@@ -3,6 +3,12 @@ package com.justinkleiber.focus2d.base;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class that deals with Sound Pools
+ * @author Justin
+ *
+ * @param <T>
+ */
 public class Pool<T> {
 	
 	public interface PoolObjectFactory<T>{

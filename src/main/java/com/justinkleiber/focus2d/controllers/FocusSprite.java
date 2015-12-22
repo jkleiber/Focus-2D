@@ -7,6 +7,11 @@ import com.justinkleiber.focus2d.base.Position;
 import com.justinkleiber.focus2d.base.Sprite;
 import com.justinkleiber.focus2d.base.SpriteStats;
 
+/**
+ * The Sprite Object, an Image and all of its properties
+ * @author Justin
+ *
+ */
 public class FocusSprite implements Sprite {
 
 	Bitmap bitmap;
@@ -14,6 +19,11 @@ public class FocusSprite implements Sprite {
 	Position p;
 	SpriteStats ss;
 	
+	/**
+	 * Initializes a Sprite
+	 * @param b The Bitmap that the Sprite represents
+	 * @param format The format of the Bitmap
+	 */
 	public FocusSprite(Bitmap b, ImageFormat format) {
 		// TODO Auto-generated constructor stub
 		this.bitmap=b;

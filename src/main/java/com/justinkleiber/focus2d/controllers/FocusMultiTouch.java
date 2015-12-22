@@ -10,7 +10,11 @@ import com.justinkleiber.focus2d.base.Pool.PoolObjectFactory;
 import android.view.MotionEvent;
 import android.view.View;
 
-
+/**
+ * Handles all Multi-Touch Input
+ * @author Justin
+ *
+ */
 
 public class FocusMultiTouch implements TouchHandler {
 	private static final int MAX_TOUCHPOINTS = 10;
@@ -24,6 +28,12 @@ public class FocusMultiTouch implements TouchHandler {
 	List<TouchEvent> touchEventsBuffer = new ArrayList<TouchEvent>();
 	float scaleX, scaleY;
 	
+	/**
+	 * Initializes the Multi-Touch Handler 
+	 * @param view The application View
+	 * @param scaleX X scaling factor
+	 * @param scaleY Y scaling factor
+	 */
 	public FocusMultiTouch(View view, float scaleX, float scaleY){
 		PoolObjectFactory<TouchEvent> factory = new PoolObjectFactory<TouchEvent>(){
 
@@ -155,6 +165,11 @@ public class FocusMultiTouch implements TouchHandler {
 		}
 	}
 	
+	/**
+	 * Gets the current pointer's index
+	 * @param pointerId The pointer to get the index of
+	 * @return The pointer's index
+	 */
 	private int getIndex(int pointerId){
 		for(int i=0;i<MAX_TOUCHPOINTS; i++){
 			if(id[i]==pointerId){

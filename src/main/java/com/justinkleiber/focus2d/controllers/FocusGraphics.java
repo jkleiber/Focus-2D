@@ -2,6 +2,8 @@ package com.justinkleiber.focus2d.controllers;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
@@ -22,7 +24,11 @@ import com.justinkleiber.focus2d.base.Position;
 import com.justinkleiber.focus2d.base.Sprite;
 import com.justinkleiber.focus2d.base.SpriteSheet;
 
-
+/**
+ * Manages the drawing of all graphics to a canvas
+ * @author Justin
+ *
+ */
 public class FocusGraphics implements Graphics{
 
 	AssetManager assets;
@@ -35,7 +41,14 @@ public class FocusGraphics implements Graphics{
 	int last_col=0, last_row=0, del_var=0;
 
 	int current_row=1,current_col=1;
+
+    int[] del_arr = new int[1000];
 	
+    /**
+     * Initializes the Graphics class, which is responsible for handling all drawing
+     * @param assets AssetManager to get files from assets/
+     * @param frame The window to draw in, represented by a Bitmap
+     */
 	public FocusGraphics(AssetManager assets, Bitmap frame)
 	{
 		this.assets=assets;
@@ -112,8 +125,9 @@ public class FocusGraphics implements Graphics{
 			}
 	        
 	    } catch (IOException e) {
+            Log.d("LOAD FAILURE: ", "Sprite Failed to load: " + file);
 	    	throw new RuntimeException("Sprite Failed to load: " + file);
-	    	//Log.d("LOAD FAILURE: ", "SpriteSheet Failed to load: " + file);
+
 	    }finally{
 			if(istr!=null){
 				try{
@@ -533,7 +547,7 @@ public class FocusGraphics implements Graphics{
 		Bitmap b = Bitmap.createBitmap(ss.getBitmap(), xsrc, ysrc, sw, sh);
 
 		Matrix m = new Matrix();
-		m.postTranslate(-sw/2, -sh/2);
+		m.postTranslate(-sw / 2, -sh / 2);
 		m.postRotate(angle);
 		m.postTranslate(sx, sy);
 		
@@ -547,11 +561,86 @@ public class FocusGraphics implements Graphics{
 		del_var++;
 	}
 
-	int rx=0, cy=0;
+    @Override
+    public void animateSheetRow(SpriteSheet ss, float x, float y, int row, int delay, float angle) {
+
+
+        int sh = ss.getSpriteHeight();
+        int sw = ss.getSpriteWidth();
+
+        float sx = x;
+        float sy = y;
+
+        int sheetw= ss.getSheetWidth();
+
+        if(last_col >= sheetw/sw)
+        {
+            last_col = 0;
+        }
+
+        int ysrc = row*sh;
+        int xsrc = last_col*sw;
+
+        Bitmap b = Bitmap.createBitmap(ss.getBitmap(), xsrc, ysrc, sw, sh);
+
+        Matrix m = new Matrix();
+        m.postTranslate(-sw / 2, -sh / 2);
+        m.postRotate(angle);
+        m.postTranslate(sx, sy);
+
+        canvas.drawBitmap(b, m, null);
+
+        if(del_var%delay==0)
+        {
+            last_col++;
+        }
+
+        del_var++;
+    }
+
+    @Override
+    public void animateSheetRow(SpriteSheet ss, float x, float y, int row, int delay, int delayIndex, float angle) {
+
+
+        int sh = ss.getSpriteHeight();
+        int sw = ss.getSpriteWidth();
+
+        float sx = x;
+        float sy = y;
+
+        int sheetw= ss.getSheetWidth();
+
+        if(last_col >= sheetw/sw)
+        {
+            last_col = 0;
+        }
+
+        int ysrc = row*sh;
+        int xsrc = last_col*sw;
+
+        Bitmap b = Bitmap.createBitmap(ss.getBitmap(), xsrc, ysrc, sw, sh);
+
+        Matrix m = new Matrix();
+        m.postTranslate(-sw / 2, -sh / 2);
+        m.postRotate(angle);
+        m.postTranslate(sx, sy);
+
+        canvas.drawBitmap(b, m, null);
+
+        del_arr[delayIndex]++;
+
+        if(del_arr[delayIndex]%delay==0)
+        {
+            last_col++;
+        }
+
+    }
+
+    int rx=0, cy=0;
 	boolean shouldStart;
 
 	@Override
-	public void animateSheetByIndex(SpriteSheet ss, int start, int end, int delay, boolean startbool) {
+	public void animateSheetByIndex(SpriteSheet ss, int start, int end, int delay, boolean startbool, float angle) {
 		shouldStart=startbool;
 
 		int sh = ss.getSpriteHeight();
@@ -583,14 +672,14 @@ public class FocusGraphics implements Graphics{
 
 		int sx = ss.getPosition().x;
 		int sy = ss.getPosition().y;
-		Rect src=new Rect(xsrc,ysrc,xsrc+sw,ysrc+sh);
-		Rect dst= new Rect(sx, sy, sx+sw, sy+sh);
 
 		Bitmap b = Bitmap.createBitmap(ss.getBitmap(), xsrc, ysrc, sw, sh);
 
 		Matrix m = new Matrix();
 		m.postTranslate(-sw/2, -sh/2);
+        m.postRotate(angle);
 		m.postTranslate(sx, sy);
+
 
 		canvas.drawBitmap(b, m, null);
 
@@ -607,6 +696,86 @@ public class FocusGraphics implements Graphics{
 		}
 
 		del_var++;
+	}
+
+    @Override
+    public void animateSpriteSheetToCoordinates(SpriteSheet s, int row, int col,int cx, int cy, int x, int y, float pace, float angle) {
+
+        float _x=cx, _y=cy;
+        float x_err;
+        float y_err;
+
+        x_err = x - cx;
+        y_err = y - cy;
+
+        x_err = x_err*pace;
+        y_err = y_err*pace;
+
+        _x+=x_err;
+        _y+=y_err;
+
+        int sh = s.getSpriteHeight();
+        int sw = s.getSpriteWidth();
+        int ysrc = row*sh;
+        int xsrc = col*sw;
+
+        Bitmap b = Bitmap.createBitmap(s.getBitmap(), xsrc, ysrc, sw, sh);
+
+        Matrix m = new Matrix();
+        m.postTranslate(-sw/2, -sh/2);
+        m.postRotate(angle);
+        m.postTranslate(_x, _y);
+
+        s.setPosition((int)_x,(int)_y);
+
+        canvas.drawBitmap(b, m, null);
+
+    }
+
+    @Override
+    public float animatedXSpeed(int cx, int x, float pace) {
+        float err = x - cx;
+        err = err * pace;
+
+        return err;
+    }
+
+    @Override
+    public float animatedYSpeed(int cy, int y, float pace) {
+        float err = y - cy;
+        err = err * pace;
+
+        return err;
+    }
+
+    @Override
+	public void drawHitBox(int sx, int sy, int sw, int sh, int tx, int ty, int tw, int th, float s_angle, Paint paint) {
+
+			double s_a, c_a;
+			s_a = Math.sin(-s_angle*Math.PI/180);
+			c_a = Math.cos(-s_angle * Math.PI / 180);
+
+			double ax=0, ay=0;
+			double bx=0, by=0;
+			double cx=0, cy=0;
+			double dx=0, dy=0;
+
+			ax = sx + (((sx-(sw/2))-sx)*c_a) + ((sy-(sh/2))-sy)*s_a;
+			ay = sy - (((sx-(sw/2))-sx)*s_a) + ((sy-(sh/2))-sy)*c_a;
+
+			bx = sx + (((sx+(sw/2))-sx)*c_a) + ((sy-(sh/2))-sy)*s_a;
+			by = sy - (((sx+(sw/2))-sx)*s_a) + ((sy-(sh/2))-sy)*c_a;
+
+			cx = sx + (((sx+(sw/2))-sx)*c_a) + ((sy+(sh/2))-sy)*s_a;
+			cy = sy - (((sx+(sw/2))-sx)*s_a) + ((sy+(sh/2))-sy)*c_a;
+
+			dx = sx + (((sx-(sw/2))-sx)*c_a) + ((sy+(sh/2))-sy)*s_a;
+			dy = sy - (((sx-(sw/2))-sx)*s_a) + ((sy+(sh/2))-sy)*c_a;
+
+			canvas.drawLine((int) ax, (int) ay, (int) bx, (int) by, paint);
+			canvas.drawLine((int) bx, (int) by, (int) cx, (int) cy, paint);
+			canvas.drawLine((int) cx, (int) cy, (int) dx, (int) dy, paint);
+			canvas.drawLine((int) dx, (int) dy, (int) ax, (int) ay, paint);
 	}
 
 }

@@ -3,6 +3,11 @@ import java.util.concurrent.TimeUnit;
 
 import com.justinkleiber.focus2d.base.*;
 
+/**
+ * Manages all timekeeping in Focus2D
+ * @author Justin
+ *
+ */
 public class FocusClock implements Clock{
 
 	float eTime = 0, oTime = 0,cTime = 0;

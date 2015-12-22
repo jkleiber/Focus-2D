@@ -3,8 +3,14 @@ package com.justinkleiber.focus2d.controllers;
 import com.justinkleiber.focus2d.base.*;
 import com.justinkleiber.focus2d.base.Input.TouchEvent;
 
+/**
+ * Determines how the User Interface is used
+ * @author Justin
+ *
+ */
 public class FocusUI implements UI{
 
+	
 	@Override
 	public boolean inBounds(TouchEvent event, int x, int y, int wid, int hi) {
 		// TODO Auto-generated method stub

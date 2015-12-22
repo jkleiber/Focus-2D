@@ -12,12 +12,20 @@ import android.media.MediaPlayer.OnVideoSizeChangedListener;
 import com.justinkleiber.focus2d.base.Music;
 
 
-
+/**
+ * Plays all Music
+ * @author Justin
+ *
+ */
 public class FocusMusic implements Music, OnCompletionListener, OnSeekCompleteListener, OnPreparedListener, OnVideoSizeChangedListener {
 
 	MediaPlayer mediaPlayer;
 	boolean isPrepared = false;
 	
+	/**
+	 * Initializes the Music Controller
+	 * @param assetDescriptor An AssetFileDescriptor for getting Music from assets/
+	 */
 	public FocusMusic(AssetFileDescriptor assetDescriptor) {
 		// TODO Auto-generated constructor stub
 		mediaPlayer = new MediaPlayer();

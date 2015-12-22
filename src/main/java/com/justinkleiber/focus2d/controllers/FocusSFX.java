@@ -4,11 +4,21 @@ import android.media.SoundPool;
 
 import com.justinkleiber.focus2d.base.SFX;
 
+/**
+ * Handles and plays the Sound Effects
+ * @author Justin
+ *
+ */
 public class FocusSFX implements SFX {
 
 	int soundId;
 	SoundPool soundPool;
 	
+	/**
+	 * Initializes the Sound Effects controller
+	 * @param sp The SoundPool
+	 * @param id The Sound ID
+	 */
 	public FocusSFX(SoundPool sp, int id)
 	{
 		this.soundId=id;

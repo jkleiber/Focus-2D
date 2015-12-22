@@ -13,11 +13,21 @@ import android.preference.PreferenceManager;
 
 import com.justinkleiber.focus2d.base.Storage;
 
+/**
+ * Manages File I/O
+ * @author Justin
+ *
+ */
 public class FileManager implements Storage{
 	
 	Context context;
 	SharedPreferences prefs;
 	Editor editor;
+	
+	/**
+	 * Initializes a FileManager Object
+	 * @param c Context of the Android Application
+	 */
 	
 	public FileManager(Context c)
 	{
@@ -25,6 +35,8 @@ public class FileManager implements Storage{
 		prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		editor = prefs.edit();
 	}
+	
+	
 	@Override
 	public void save(String file, String value) {
 		// TODO Auto-generated method stub
@@ -40,6 +52,7 @@ public class FileManager implements Storage{
 		}
 	}
 
+	
 	@Override
 	public ArrayList<String> loadToArray(String file) {
 		// TODO Auto-generated method stub
@@ -65,6 +78,7 @@ public class FileManager implements Storage{
 	    }
 	}
 
+	
 	@Override
 	public String loadToString(String file) {
 		// TODO Auto-generated method stub
@@ -90,18 +104,21 @@ public class FileManager implements Storage{
 		
 	}
 
+	
 	@Override
 	public void setPref(String key, String str) {
 		// TODO Auto-generated method stub
 		editor.putString(key, str);
 		editor.commit();
 	}
+	
 	@Override
 	public void setPref(String key, int i) {
 		// TODO Auto-generated method stub
 		editor.putInt(key, i);
 		editor.commit();
 	}
+	
 	@Override
 	public void setPref(String key, boolean b) {
 		// TODO Auto-generated method stub
@@ -114,6 +131,12 @@ public class FileManager implements Storage{
 		editor.putFloat(key, f);
 	}
 
+	/**
+	 * Returns a String from a Shared Preference
+	 * @param key Unique Key used to get Shared Preference
+	 * @param def Default value if the specified Shared Preference does not exist
+	 * @return Value of the Shared Preference
+	 */
 	@Override
 	public String getStringPref(String key, String def) {
 		// TODO Auto-generated method stub
@@ -122,6 +145,12 @@ public class FileManager implements Storage{
 		return str;
 	}
 
+	/**
+	 * Returns an int from a Shared Preference
+	 * @param key Unique Key used to get Shared Preference
+	 * @param def Default value if the specified Shared Preference does not exist
+	 * @return Value of the Shared Preference
+	 */
 	@Override
 	public int getIntPref(String key, int def) {
 		// TODO Auto-generated method stub
@@ -130,6 +159,12 @@ public class FileManager implements Storage{
 		return i;
 	}
 
+	/**
+	 * Returns a boolean from a Shared Preference
+	 * @param key Unique Key used to get Shared Preference
+	 * @param def Default value if the specified Shared Preference does not exist
+	 * @return Value of the Shared Preference
+	 */
 	@Override
 	public boolean getBoolPref(String key, boolean def) {
 		// TODO Auto-generated method stub
@@ -138,6 +173,12 @@ public class FileManager implements Storage{
 		return bool;
 	}
 
+	/**
+	 * Returns a float from a Shared Preference
+	 * @param key Unique Key used to get Shared Preference
+	 * @param def Default value if the specified Shared Preference does not exist
+	 * @return Value of the Shared Preference
+	 */
 	@Override
 	public float getFloatPref(String key, float def) {
 		float f;
@@ -145,6 +186,11 @@ public class FileManager implements Storage{
 		return f;
 	}
 
+	/**
+	 * Checks to see if a specified file path exists
+	 * @param file the path to check
+	 * @return Whether the file exists or not
+	 */
 	@Override
 	public boolean isExist(String file) {
 		// TODO Auto-generated method stub
@@ -166,6 +212,12 @@ public class FileManager implements Storage{
 	        return false;
 	    }
 	}
+	
+	/**
+	 * Saves an ArrayList<String> in a text file. Each element is saved on a new line.
+	 * @param file The path of the text file
+	 * @param value The ArrayList to be saved
+	 */
 	@Override
 	public void save(String file, ArrayList<String> value) {
 		// TODO Auto-generated method stub

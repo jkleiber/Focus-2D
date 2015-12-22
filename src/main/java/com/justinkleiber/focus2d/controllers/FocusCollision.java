@@ -2,6 +2,11 @@ package com.justinkleiber.focus2d.controllers;
 
 import com.justinkleiber.focus2d.base.*;
 
+/**
+ * Determines if Sprites and SpriteSheets are colliding or are in a certain position
+ * @author Justin
+ *
+ */
 public class FocusCollision implements Collision{
 
 	@Override
@@ -103,7 +108,18 @@ public class FocusCollision implements Collision{
         return true;
 	}
 
-
+	/**
+	 * Detects basic Collision
+	 * @param cx x coord object 1
+	 * @param cy y coord object 1
+	 * @param cw width oobject 1
+	 * @param ch height object 1
+	 * @param ex x coord object 2
+	 * @param ey y coord object 2
+	 * @param ew width object 2
+	 * @param eh height object 2
+	 * @return true if a collision exists, otherwise false
+	 */
 	public boolean collide(double cx, double cy, double cw, double ch, double ex, double ey, double ew, double eh){
 		if (cy+ch<ey){
             return false;
@@ -232,34 +248,110 @@ public class FocusCollision implements Collision{
 		}
 	}
 
-	protected boolean isInsideAngledQuad(double m, double b, int x, int y, int w, int h)
-	{
-		double one = m*x +b;
-		double two = m*x -b;
-
-		double three = (-1/m)*x + b;
-		double four = (-1/m)*x - b;
-
-		//if between all values or equal, return true
-
-		if((y<=one && y>=two)&&(x>=three && x<=four))
-		{
-			return true;
-		}
-
-		return false;
-	}
 	@Override
 	public boolean isCollisionExist(int sx, int sy, int sw, int sh, int tx, int ty, int tw, int th, float s_angle) {
-		double m_lh, m_ang, l_b;
+//Find points of hitbox
+		double s_a, c_a;
+		s_a = Math.sin(-s_angle*Math.PI/180);
+		c_a = Math.cos(-s_angle * Math.PI / 180);
 
-		m_lh = Math.atan(s_angle*180/Math.PI);
+		double ax=0, ay=0;
+		double bx=0, by=0;
+		double cx=0, cy=0;
+		double dx=0, dy=0;
 
-		m_ang=Math.sin(s_angle*180/Math.PI);
+        double l_slope, w_slope;
 
-		l_b=(sw/2)/m_ang;
+		ax = sx + (((sx-(sw/2))-sx)*c_a) + ((sy-(sh/2))-sy)*s_a;
+		ay = sy - (((sx-(sw/2))-sx)*s_a) + ((sy-(sh/2))-sy)*c_a;
 
-		return isInsideAngledQuad(m_lh,l_b,tx,ty,tw,th);
+		bx = sx + (((sx+(sw/2))-sx)*c_a) + ((sy-(sh/2))-sy)*s_a;
+		by = sy - (((sx+(sw/2))-sx)*s_a) + ((sy-(sh/2))-sy)*c_a;
+
+		cx = sx + (((sx+(sw/2))-sx)*c_a) + ((sy+(sh/2))-sy)*s_a;
+		cy = sy - (((sx+(sw/2))-sx)*s_a) + ((sy+(sh/2))-sy)*c_a;
+
+		dx = sx + (((sx-(sw/2))-sx)*c_a) + ((sy+(sh/2))-sy)*s_a;
+		dy = sy - (((sx-(sw/2))-sx)*s_a) + ((sy+(sh/2))-sy)*c_a;
+
+        w_slope = (ay-by)/(ax-bx);
+
+        l_slope = (by-cy)/(bx-cx);
+
+
+        double ab_, bc_, cd_, da_;
+
+        if(s_angle>0) {
+            //short sides (if object is "portrait")
+            ab_ = w_slope * ((tx - tw / 2) - ax) + ay;
+            if (ab_ > (ty + th / 2)) {
+                return false;
+            }
+
+            cd_ = w_slope * ((tx + tw / 2) - cx) + cy;
+            if (cd_ < (ty - th / 2)) {
+                return false;
+            }
+
+            //long sides (if object is "portrait")
+            bc_ = l_slope * ((tx - tw / 2) - bx) + by;
+            if (bc_ < (ty - th / 2)) {
+                return false;
+            }
+            da_ = l_slope * ((tx + tw / 2) - dx) + dy;
+            if (da_ > (ty + th / 2)) {
+                return false;
+            }
+
+        }
+        else
+        {
+            //short sides (if object is "portrait")
+            ab_ = w_slope * ((tx + tw / 2) - ax) + ay;
+            if (ab_ > (ty + th / 2)) {
+                return false;
+            }
+
+            cd_ = w_slope * ((tx - tw / 2) - cx) + cy;
+            if (cd_ < (ty - th / 2)) {
+                return false;
+            }
+
+            if (s_angle != 0) {
+                //long sides (if object is "portrait")
+                bc_ = l_slope * ((tx - tw / 2) - bx) + by;
+                if (bc_ > (ty + th / 2)) {
+                    return false;
+                }
+
+                da_ = l_slope * ((tx + tw / 2) - dx) + dy;
+                if (da_ < (ty - th / 2)) {
+                    return false;
+                }
+            }
+            else
+            {
+                if (sy+(sh/2)<ty-(th/2))
+                {
+                    return false;
+                }
+                if (sy-(sh/2)>ty+(th/2))
+                {
+                    return false;
+                }
+                if (sx+(sw/2)<tx-(tw/2))
+                {
+                    return false;
+                }
+                if (sx-(sw/2)>(tw/2)+tx)
+                {
+                    return false;
+                }
+                return true;
+            }
+        }
+
+        return true;
 	}
 
 

@@ -6,6 +6,11 @@ import com.justinkleiber.focus2d.base.Graphics.ImageFormat;
 import com.justinkleiber.focus2d.base.Position;
 import com.justinkleiber.focus2d.base.SpriteSheet;
 
+/**
+ * Contains the properties of a Sprite Sheet 
+ * @author Justin
+ *
+ */
 public class FocusSpriteSheet implements SpriteSheet {
 
 	Bitmap bitmap;
@@ -13,6 +18,13 @@ public class FocusSpriteSheet implements SpriteSheet {
 	ImageFormat format;
 	Position p;
 	
+	/**
+	 * Initializes a SpriteSheet
+	 * @param b The Bitmap that the SpriiteSheet represents
+	 * @param rows Amount of rows in the SpriteSheet
+	 * @param cols Amount of Columns in the SpriteSheet
+	 * @param format The format of the Bitmap
+	 */
 	FocusSpriteSheet(Bitmap b, int rows, int cols, ImageFormat format)
 	{
 		this.bitmap=b;

@@ -10,7 +10,11 @@ import com.justinkleiber.focus2d.base.Input.TouchEvent;
 import com.justinkleiber.focus2d.base.Pool;
 import com.justinkleiber.focus2d.base.Pool.PoolObjectFactory;
 
-
+/**
+ * Manages Single Touch Input
+ * @author Justin
+ *
+ */
 public class FocusOneTouch implements TouchHandler {
 
 	boolean isTouched;
@@ -22,6 +26,12 @@ public class FocusOneTouch implements TouchHandler {
 	float scaleX;
 	float scaleY;
 	
+	/**
+	 * Initializes the Single Touch Listener
+	 * @param v The application View
+	 * @param scaleX X scaling factor
+	 * @param scaleY Y scaling factor
+	 */
 	public FocusOneTouch(View v, float scaleX, float scaleY) {
 		// TODO Auto-generated constructor stub
 		PoolObjectFactory<TouchEvent> factory = new PoolObjectFactory<TouchEvent>(){
