@@ -12,13 +12,13 @@ Focus2D ~Cool Features~
 
 HOW TO INSTALL Focus2D
 
-1. Download and Import this project as a New Module in you app.
+1. Download and select File>Import Module in Android Studio. Navigate to the location of Focus2D and select it. Rename the module "Focus2D" without quotes.
 
 2. In your build.gradle (Module: app), make dependencies look like this:
 
 dependencies {
     //Whatever auto-generated stuff was here before can stay
-    compile project(":Focus-2D")
+    compile project(":Focus2D")
 }
 
 3. In your Android Manifest.xml, add xmlns:tools="http://schemas.android.com/tools" to the <manifest> tag.
