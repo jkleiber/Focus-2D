@@ -10,7 +10,7 @@ import com.justinkleiber.focus2d.base.Input.TouchEvent;
 public interface UI {
 
 	/**
-	 * Checkks to see if a TouchEvent occurs wiithin a rectangular boundary
+	 * Checks to see if a TouchEvent occurs within a rectangular boundary
 	 * @param event The TouchEvent
 	 * @param x x coord of rect
 	 * @param y y coord of rect

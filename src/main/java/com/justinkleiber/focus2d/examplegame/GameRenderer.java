@@ -1,7 +1,7 @@
 /**
- * Package to show how rendering is done
+ * Package to show how rendering is done, and how to set up a game
  */
-package com.justinkleiber.focus2d.renderexample;
+package com.justinkleiber.focus2d.examplegame;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -15,14 +15,13 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * This is an example of the interpolating rendering system that comes with focus2D
- * It is pulled straight off of Rocketeer
- * GameLoop would be changed to whatever your Game file is 
+ * 
+ * The Game class represents the class where the game is actually run
  */
-public class MainRenderer extends SurfaceView implements Runnable{
-
+public class GameRenderer extends SurfaceView implements Runnable
+{
 	
-	//Foundation foundation;
-	GameLoop gameLoop;
+	Game game;
 	Bitmap frame;
 	Thread renderThread=null;
 	SurfaceHolder holder;
@@ -36,21 +35,6 @@ public class MainRenderer extends SurfaceView implements Runnable{
     int loops;
     float interpolation;
     int next_game_tick;
-	/*
-	public MainRenderer(Context c) {
-		super(c);
-		gameLoop = new GameLoop();
-		frame=Bitmap.createBitmap(800, 1280, Bitmap.Config.RGB_565);
-		this.holder=getHolder();
-	}
-
-	public MainRenderer(Context c, AttributeSet attr)
-	{
-		super(c,attr);
-		//gameLoop = new GameLoop();
-		frame=Bitmap.createBitmap(800, 1280, Bitmap.Config.RGB_565);
-		this.holder=getHolder();
-	}*/
     
     /**
      * Initializes the main renderer
@@ -59,20 +43,13 @@ public class MainRenderer extends SurfaceView implements Runnable{
      * @see Graphics
      * @see FocusGraphics
      */
-	public MainRenderer(GameLoop g, Bitmap frame)
+	public GameRenderer(GameLoop g, Bitmap frame)
 	{
 		super(g);
-		this.gameLoop=g;
-		this.frame=frame;
-		this.holder=getHolder();
+		this.game = g;
+		this.frame = frame;
+		this.holder = getHolder();
 	}
-	/*
-	public void setActivity(GameLoop g)
-	{
-		this.gameLoop=g;
-		frame=Bitmap.createBitmap(800, 1280, Bitmap.Config.RGB_565);
-		this.holder=getHolder();
-	}*/
 	
 	/**
 	 * The loop where all rendering is done
@@ -80,15 +57,18 @@ public class MainRenderer extends SurfaceView implements Runnable{
 	 * Drawing to the screen is done in the paint(interpolation) method. The interpolation variable must be used insiide that method to make rendering smooth and consistent across devices
 	 */
 	@Override
-	public void run() {
+	public void run() 
+	{
 		// TODO Auto-generated method stub
 		Rect dstRect = new Rect();
 		startTime = System.nanoTime();
 		next_game_tick = 0;
 
-		while(running){
+		while(running)
+		{
 
-			if(!holder.getSurface().isValid()){
+			if(!holder.getSurface().isValid())
+			{
 				continue;
 			}
 
@@ -97,7 +77,8 @@ public class MainRenderer extends SurfaceView implements Runnable{
 
 			loops = 0;
 
-	        while( deltaTime > next_game_tick && loops < MAX_FRAMESKIP) {
+	        while( deltaTime > next_game_tick && loops < MAX_FRAMESKIP) 
+			{
 	        	gameLoop.update();
 	            next_game_tick += SKIP_TICKS;
 	            loops++;
@@ -116,13 +97,18 @@ public class MainRenderer extends SurfaceView implements Runnable{
 	/**
 	 * Called when the game is paused, usually in onPause()
 	 */
-	public void pause(){
+	public void pause()
+	{
 		running = false;
-		while(true){
-			try{
+		while(true)
+		{
+			try
+			{
 				renderThread.join();
 				break;
-			}catch(InterruptedException e){
+			}
+			catch(InterruptedException e)
+			{
 				//retry
 			}
 		}
@@ -131,7 +117,8 @@ public class MainRenderer extends SurfaceView implements Runnable{
 	/**
 	 * Called to resume the game, usually in onResume()
 	 */
-	public void resume() {
+	public void resume() 
+	{
 		running=true;
 		renderThread=new Thread(this);
 		renderThread.start();

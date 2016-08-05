@@ -92,12 +92,12 @@ public interface Storage {
 	 * @param def The default value to return if no such Shared Preference exists
 	 * @return The value of the Shared Preference, or the default if no such Preference exists
 	 */
-	public float getFloatPref(String key, float f);
+	public float getFloatPref(String key, float def);
 	
 	/**
 	 * Returns if a specified file exists or not
 	 * @param file the file to check for existence
-	 * @return true if the file exists, flase if it does not
+	 * @return true if the file exists, false if it does not
 	 */
 	public boolean isExist(String file);
 }

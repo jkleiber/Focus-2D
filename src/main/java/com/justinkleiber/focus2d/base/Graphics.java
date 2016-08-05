@@ -61,7 +61,7 @@ public interface Graphics {
 	public int getWidth();
 	
 	/**
-	 * Gets the height of the Graphics frams
+	 * Gets the height of the Graphics frame
 	 * @return The height of the drawing surface
 	 */
 	public int getHeight();

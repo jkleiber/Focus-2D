@@ -6,7 +6,7 @@ import com.justinkleiber.focus2d.base.Backdrop;
 import com.justinkleiber.focus2d.base.Graphics.ImageFormat;
 
 /**
- * Impements the defined Backdrop Functions
+ * Implements the defined Backdrop Functions
  * @author Justin
  *
  */
@@ -17,7 +17,7 @@ public class FocusBackdrop implements Backdrop{
 	
 	/**
 	 * Creates an object that acts as a background
-	 * @param b The bitmap to act as the backkground
+	 * @param b The bitmap to act as the background
 	 * @param format The format of the bitmap.
 	 */
 	FocusBackdrop(Bitmap b, ImageFormat format)

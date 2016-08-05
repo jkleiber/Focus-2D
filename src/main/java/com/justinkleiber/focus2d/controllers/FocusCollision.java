@@ -112,7 +112,7 @@ public class FocusCollision implements Collision{
 	 * Detects basic Collision
 	 * @param cx x coord object 1
 	 * @param cy y coord object 1
-	 * @param cw width oobject 1
+	 * @param cw width object 1
 	 * @param ch height object 1
 	 * @param ex x coord object 2
 	 * @param ey y coord object 2
