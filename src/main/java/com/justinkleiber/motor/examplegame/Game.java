@@ -2,7 +2,6 @@ package com.justinkleiber.motor.examplegame;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Display;
@@ -14,23 +13,25 @@ import com.justinkleiber.motor.base.Clock;
 import com.justinkleiber.motor.base.Collision;
 import com.justinkleiber.motor.base.Graphics;
 import com.justinkleiber.motor.base.Input;
-import com.justinkleiber.motor.base.Sprite;
 import com.justinkleiber.motor.base.Storage;
 import com.justinkleiber.motor.base.UI;
 import com.justinkleiber.motor.base.Vibrate;
 import com.justinkleiber.motor.controllers.FileManager;
-import com.justinkleiber.motor.controllers.FocusAudio;
-import com.justinkleiber.motor.controllers.FocusClock;
-import com.justinkleiber.motor.controllers.FocusCollision;
-import com.justinkleiber.motor.controllers.FocusGraphics;
-import com.justinkleiber.motor.controllers.FocusInput;
-import com.justinkleiber.motor.controllers.FocusUI;
-import com.justinkleiber.motor.controllers.FocusVibrate;
+import com.justinkleiber.motor.controllers.MotorAudio;
+import com.justinkleiber.motor.controllers.MotorClock;
+import com.justinkleiber.motor.controllers.MotorCollision;
+import com.justinkleiber.motor.controllers.MotorGraphics;
+import com.justinkleiber.motor.controllers.MotorInput;
+import com.justinkleiber.motor.controllers.MotorUI;
+import com.justinkleiber.motor.controllers.MotorVibrate;
 
+/**
+ * Example Game Loop
+ */
 
 public class Game extends Activity implements GameLoopTemplate
 {
-    //All Focus2D Related variables go here
+    //All Motor Related variables go here
     Graphics g;
     Input input;
     Storage storage;
@@ -65,7 +66,7 @@ public class Game extends Activity implements GameLoopTemplate
         int frameBufferWidth = 2560;
         int frameBufferHeight = 1440;
         Bitmap frame = Bitmap.createBitmap(frameBufferWidth, frameBufferHeight, Bitmap.Config.RGB_565);
-        g = new FocusGraphics(getAssets(), frame);
+        g = new MotorGraphics(getAssets(), frame);
 
         //Setup the renderer
         renderer = new GameRenderer(this, frame);
@@ -79,16 +80,16 @@ public class Game extends Activity implements GameLoopTemplate
         float scaleX = (float) frameBufferWidth / width;
         float scaleY = (float) frameBufferHeight / height;
 
-        //Setup the Focus 2D user input stuff
-        input = new FocusInput(this, renderer, scaleX, scaleY);
+        //Setup the Motor user input stuff
+        input = new MotorInput(this, renderer, scaleX, scaleY);
 
-        //Setup the rest of Focus2D
+        //Setup the rest of Motor
         storage = new FileManager(this);
-        clock = new FocusClock();
-        collision = new FocusCollision();
-        vibrate = new FocusVibrate(this);
-        audio = new FocusAudio(this);
-        ui = new FocusUI();
+        clock = new MotorClock();
+        collision = new MotorCollision();
+        vibrate = new MotorVibrate(this);
+        audio = new MotorAudio(this);
+        ui = new MotorUI();
 
         //Show the renderer
         setContentView(renderer);  
@@ -132,6 +133,6 @@ public class Game extends Activity implements GameLoopTemplate
 
     public void paint(float i)
     {
-        //Add drawing methods from FocusGraphics here
+        //Add drawing methods from MotorGraphics here
     }
 }

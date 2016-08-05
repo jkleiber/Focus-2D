@@ -3,18 +3,19 @@
  */
 package com.justinkleiber.motor.examplegame;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
+import com.justinkleiber.motor.base.Graphics;
+import com.justinkleiber.motor.controllers.MotorGraphics;
 
 import java.util.concurrent.TimeUnit;
 
 /**
- * This is an example of the interpolating rendering system that comes with focus2D
+ * This is an example of the interpolating rendering system that comes with Motor.
  * 
  * The Game class represents the class where the game is actually run
  */
@@ -38,12 +39,12 @@ public class GameRenderer extends SurfaceView implements Runnable
     
     /**
      * Initializes the main renderer
-     * @param g A Game Class, in this case, GameLoop
+     * @param g A Game Class, in this case, Game
      * @param frame The Bitmap that you use as a surface for drawing. This should be the same one you use when using the Graphics Class
      * @see Graphics
-     * @see FocusGraphics
+     * @see MotorGraphics
      */
-	public GameRenderer(GameLoop g, Bitmap frame)
+	public GameRenderer(Game g, Bitmap frame)
 	{
 		super(g);
 		this.game = g;
@@ -54,7 +55,7 @@ public class GameRenderer extends SurfaceView implements Runnable
 	/**
 	 * The loop where all rendering is done
 	 * Calculations are done in the update() method
-	 * Drawing to the screen is done in the paint(interpolation) method. The interpolation variable must be used insiide that method to make rendering smooth and consistent across devices
+	 * Drawing to the screen is done in the paint(interpolation) method. The interpolation variable must be used inside that method to make rendering smooth and consistent across devices
 	 */
 	@Override
 	public void run() 
@@ -79,14 +80,14 @@ public class GameRenderer extends SurfaceView implements Runnable
 
 	        while( deltaTime > next_game_tick && loops < MAX_FRAMESKIP) 
 			{
-	        	gameLoop.update();
+	        	game.update();
 	            next_game_tick += SKIP_TICKS;
 	            loops++;
 	        }
 
 	        interpolation = ((float) deltaTime + SKIP_TICKS - next_game_tick)/ (float) SKIP_TICKS;
 
-			gameLoop.paint(interpolation);
+			game.paint(interpolation);
 	        Canvas canvas = holder.lockCanvas();
 			canvas.getClipBounds(dstRect);
 			canvas.drawBitmap(frame, null, dstRect, null);

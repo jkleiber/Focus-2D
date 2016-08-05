@@ -1,7 +1,7 @@
 package com.justinkleiber.motor.examplegame;
 
 /**
- * Created by jklei on 8/3/2016.
+ * Interface for required rendering functions
  */
 public interface GameLoopTemplate
 {

@@ -1,7 +1,7 @@
 package com.justinkleiber.motor.base;
 
 /**
- * An interface for the FocusBackdrop class
+ * An interface for the MotorBackdrop class
  * @author Justin
  *
  */

@@ -1,6 +1,12 @@
 package com.justinkleiber.motor.examplegame;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Bundle;
+
 import com.justinkleiber.motor.base.Graphics;
+import com.justinkleiber.motor.controllers.MotorGraphics;
 
 /**
  * Example of using a Splash Screen while loading all the resources the game needs
@@ -14,13 +20,14 @@ public class SplashActivity extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(SPLASH_SCREEN_LAYOUT);
+        //setContentView(R.layout.splash); //Uncomment this to add your own splash screen
 
         int frameBufferWidth = 2560;
         int frameBufferHeight = 1440;
+
         Bitmap frame = Bitmap.createBitmap(frameBufferWidth, frameBufferHeight, Bitmap.Config.RGB_565);
         
-        g = new FocusGraphics(getAssets(), frame);
+        g = new MotorGraphics(getAssets(), frame);
 
         //Load all assets before running the thread
         Assets.sprite = g.newSprite("sprite.png");
